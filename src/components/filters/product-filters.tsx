@@ -75,16 +75,16 @@ export function ProductFilters({
           <div className="space-y-2">
             <Label htmlFor="sport">Sport</Label>
             <Select
-              value={filters.sport || ""}
+              value={filters.sport || "all"}
               onValueChange={(value) => 
-                onFiltersChange({ ...filters, sport: value || undefined })
+                onFiltersChange({ ...filters, sport: value === "all" ? undefined : value })
               }
             >
               <SelectTrigger>
                 <SelectValue placeholder="Tous les sports" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Tous les sports</SelectItem>
+                <SelectItem value="all">Tous les sports</SelectItem>
                 {sports.map((sport) => (
                   <SelectItem key={sport.value} value={sport.value}>
                     {sport.label}
@@ -98,16 +98,16 @@ export function ProductFilters({
           <div className="space-y-2">
             <Label htmlFor="team">Équipe</Label>
             <Select
-              value={filters.team || ""}
+              value={filters.team || "all"}
               onValueChange={(value) => 
-                onFiltersChange({ ...filters, team: value || undefined })
+                onFiltersChange({ ...filters, team: value === "all" ? undefined : value })
               }
             >
               <SelectTrigger>
                 <SelectValue placeholder="Toutes les équipes" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Toutes les équipes</SelectItem>
+                <SelectItem value="all">Toutes les équipes</SelectItem>
                 {teams.map((team) => (
                   <SelectItem key={team.value} value={team.value}>
                     {team.label}
