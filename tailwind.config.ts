@@ -18,7 +18,15 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				sans: ['Inter', 'system-ui', 'sans-serif'],
+				display: ['Inter', 'system-ui', 'sans-serif'],
+			},
 			colors: {
+				'sport-blue': 'hsl(var(--sport-blue))',
+				'sport-red': 'hsl(var(--sport-red))',
+				'sport-green': 'hsl(var(--sport-green))',
+				'sport-orange': 'hsl(var(--sport-orange))',
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
