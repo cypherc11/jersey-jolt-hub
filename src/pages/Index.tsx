@@ -3,14 +3,15 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/ui/hero-section";
 import { ProductGrid } from "@/components/products/product-grid";
-import { ProductFilters } from "@/components/filters/product-filters";
-import { useProducts } from "@/hooks/useProducts";
+import { AdvancedFilters } from "@/components/filters/advanced-filters";
+import { useFirebaseProducts } from "@/hooks/useFirebaseProducts";
 import { FilterOptions, SortOption } from "@/types";
+import { SEOHead } from "@/components/seo/seo-head";
 
 const Index = () => {
   const [filters, setFilters] = useState<FilterOptions>({});
   const [sort, setSort] = useState<SortOption>("newest");
-  const { products, loading } = useProducts(filters, sort);
+  const { products, loading } = useFirebaseProducts(filters, sort);
 
   const handleClearFilters = () => {
     setFilters({});
@@ -19,6 +20,10 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead 
+        title="Maillots de Sport Authentiques"
+        description="Découvrez notre collection de maillots de sport des plus grandes équipes. Football, Basketball, Rugby et plus encore."
+      />
       <Header />
       <main>
         <HeroSection />
@@ -31,12 +36,13 @@ const Index = () => {
             </p>
           </div>
 
-          <ProductFilters
+          <AdvancedFilters
             filters={filters}
             sort={sort}
             onFiltersChange={setFilters}
             onSortChange={setSort}
             onClearFilters={handleClearFilters}
+            className="mb-8"
           />
 
           <ProductGrid products={products} loading={loading} />

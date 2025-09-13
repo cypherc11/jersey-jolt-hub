@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Product } from "@/types";
 import { Link } from "react-router-dom";
 import { MessageCircle, Phone } from "lucide-react";
+import { AddToCartButton } from "@/components/cart/add-to-cart-button";
 
 interface ProductCardProps {
   product: Product;
@@ -84,7 +85,9 @@ export function ProductCard({ product }: ProductCardProps) {
             </span>
           </div>
 
-          <div className="flex space-x-2 pt-2">
+          <AddToCartButton product={product} className="mb-2" />
+          
+          <div className="flex space-x-2">
             <Button
               onClick={handleWhatsAppOrder}
               className="flex-1 bg-sport-green hover:bg-sport-green/90 transition-sprint"

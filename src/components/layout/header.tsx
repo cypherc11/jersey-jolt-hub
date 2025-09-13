@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Search, Menu, ShoppingBag, User } from "lucide-react";
+import { Menu, ShoppingBag, User } from "lucide-react";
 import { Link } from "react-router-dom";
+import { CartButton } from "@/components/cart/cart-button";
+import { SearchBar } from "@/components/search/search-bar";
 
 const navigation = [
   { name: "Accueil", href: "/" },
@@ -14,7 +15,6 @@ const navigation = [
 ];
 
 export function Header() {
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
@@ -44,28 +44,13 @@ export function Header() {
 
           {/* Actions */}
           <div className="flex items-center space-x-3">
-            {/* Search */}
-            <div className="relative">
-              {isSearchOpen ? (
-                <div className="flex items-center space-x-2">
-                  <Input
-                    placeholder="Rechercher..."
-                    className="w-48 transition-sprint"
-                    autoFocus
-                    onBlur={() => setIsSearchOpen(false)}
-                  />
-                </div>
-              ) : (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setIsSearchOpen(true)}
-                  className="transition-sprint hover:scale-105"
-                >
-                  <Search className="w-4 h-4" />
-                </Button>
-              )}
+            {/* Search - Desktop */}
+            <div className="hidden md:block w-64">
+              <SearchBar />
             </div>
+
+            {/* Cart Button */}
+            <CartButton />
 
             {/* Admin Login */}
             <Link to="/admin">
@@ -82,7 +67,12 @@ export function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-80">
-                <nav className="flex flex-col space-y-4 mt-8">
+                {/* Mobile Search */}
+                <div className="mt-4 mb-8">
+                  <SearchBar />
+                </div>
+                
+                <nav className="flex flex-col space-y-4">
                   {navigation.map((item) => (
                     <Link
                       key={item.name}
