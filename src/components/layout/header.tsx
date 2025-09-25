@@ -53,7 +53,7 @@ export function Header() {
             <CartButton />
 
             {/* Admin Login */}
-            <Link to="/admin">
+            <Link to="/Admin">
               <Button variant="ghost" size="sm" className="transition-sprint hover:scale-105">
                 <User className="w-4 h-4" />
               </Button>

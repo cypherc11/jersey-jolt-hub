@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,20 +9,20 @@ import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
-import { Upload, X, Plus, Save } from "lucide-react";
+import { Upload, X, Plus, Save, User } from "lucide-react";
 import { Product } from "@/types";
 
 interface ProductFormProps {
   product?: Product | null;
-  onSave: (product: Partial<Product>) => Promise<void>;
-  onCancel: () => void;
+  onSave?: (product: Partial<Product>) => Promise<void>;
+  onCancel?: () => void;
   loading?: boolean;
 }
 
 const sports = ["football", "basketball", "rugby", "tennis"];
 const categories = ["domicile", "extérieur", "third kit", "rétro"];
 
-export function ProductForm({ product, onSave, onCancel, loading }: ProductFormProps) {
+export default function ProductForm({ product, onSave, onCancel, loading }: ProductFormProps) {
   const [formData, setFormData] = useState({
     name: product?.name || "",
     description: product?.description || "",
@@ -44,6 +45,7 @@ export function ProductForm({ product, onSave, onCancel, loading }: ProductFormP
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  //upload d'un image
   const handleImageUpload = (files: FileList | null) => {
     if (!files) return;
 
@@ -78,6 +80,7 @@ export function ProductForm({ product, onSave, onCancel, loading }: ProductFormP
     setDragOver(false);
   };
 
+  // destruction d'un image uploader
   const removeImage = (index: number) => {
     setFormData(prev => ({
       ...prev,
@@ -85,6 +88,7 @@ export function ProductForm({ product, onSave, onCancel, loading }: ProductFormP
     }));
   };
 
+  //verification des champs obligatoire
   const validateForm = () => {
     if (!formData.name.trim()) {
       toast({
@@ -97,7 +101,7 @@ export function ProductForm({ product, onSave, onCancel, loading }: ProductFormP
 
     if (formData.price <= 0) {
       toast({
-        title: "Erreur de validation", 
+        title: "Erreur de validation",
         description: "Le prix doit être supérieur à 0",
         variant: "destructive"
       });
@@ -116,9 +120,10 @@ export function ProductForm({ product, onSave, onCancel, loading }: ProductFormP
     return true;
   };
 
+  //soumiton si formulaire correct
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     try {
@@ -152,7 +157,17 @@ export function ProductForm({ product, onSave, onCancel, loading }: ProductFormP
   };
 
   return (
+
     <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="w-8 h-8">
+        <Link to="/Admin">
+          <Button variant="ghost" size="sm" className=" w-8 h-8 gradient-primary rounded-lg flex items-center justify-center space-x-8">
+            <User className="w-4 h-4" />
+          </Button>
+        </Link>
+      </div>
+
+
       <Card>
         <CardHeader>
           <CardTitle>{product ? 'Modifier' : 'Ajouter'} un produit</CardTitle>
@@ -213,8 +228,8 @@ export function ProductForm({ product, onSave, onCancel, loading }: ProductFormP
           <div className="grid gap-4 md:grid-cols-3">
             <div className="space-y-2">
               <Label>Sport</Label>
-              <Select 
-                value={formData.sport} 
+              <Select
+                value={formData.sport}
                 onValueChange={(value) => handleInputChange('sport', value)}
               >
                 <SelectTrigger>
@@ -242,8 +257,8 @@ export function ProductForm({ product, onSave, onCancel, loading }: ProductFormP
 
             <div className="space-y-2">
               <Label>Catégorie</Label>
-              <Select 
-                value={formData.category_id} 
+              <Select
+                value={formData.category_id}
                 onValueChange={(value) => handleInputChange('category_id', value)}
               >
                 <SelectTrigger>
@@ -287,14 +302,13 @@ export function ProductForm({ product, onSave, onCancel, loading }: ProductFormP
           {/* Images Upload */}
           <div className="space-y-4">
             <Label>Images du produit *</Label>
-            
+
             {/* Drag & Drop Area */}
             <div
-              className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
-                dragOver 
-                  ? 'border-primary bg-primary/10' 
-                  : 'border-muted-foreground/25 hover:border-primary/50'
-              }`}
+              className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${dragOver
+                ? 'border-primary bg-primary/10'
+                : 'border-muted-foreground/25 hover:border-primary/50'
+                }`}
               onDrop={handleDrop}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
@@ -385,9 +399,12 @@ export function ProductForm({ product, onSave, onCancel, loading }: ProductFormP
 
           {/* Action Buttons */}
           <div className="flex justify-end space-x-4 pt-4 border-t">
-            <Button type="button" variant="outline" onClick={onCancel}>
-              Annuler
-            </Button>
+            <Link to={"/Admin"}>
+              <Button type="button" variant="outline" onClick={onCancel}>
+                Annuler
+              </Button>
+            </Link>
+
             <Button type="submit" disabled={loading}>
               {loading ? (
                 "Sauvegarde..."

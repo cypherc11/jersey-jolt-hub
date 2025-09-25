@@ -14,7 +14,7 @@ export default function ProductDetail() {
   const handleWhatsAppOrder = () => {
     if (!product) return;
     const message = `Bonjour, je suis intéressé par le maillot de sport ${product.name} à ${product.price}€.`;
-    const whatsappUrl = `https://wa.me/33123456789?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/+237697995579?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
 

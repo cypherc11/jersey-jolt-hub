@@ -4,20 +4,47 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Lock, User, ShoppingBag, TrendingUp, Users, Package } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';
+//import { ProductForm } from "@/components/admin/product-form";
+import { toast } from "sonner";
+import { Product } from "@/types";
+
 
 export default function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [credentials, setCredentials] = useState({ username: "", password: "" });
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
+  //const { login } = useFirebaseAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const { logout } = useFirebaseAuth()
+
+  // const handleLogin = async () => {
+  //   try {
+  //     await login(email, password);
+  //     setIsAuthenticated(true);
+  //     toast('Authentification success')
+  //     // Rediriger vers le dashboard admin
+  //   } catch (err) {
+  //     setError('Échec de la connexion');
+  //     alert("Identifiants incorrects");
+  //     toast.error
+  //   }
+  // };
+
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     // Simple authentication for demo
-    if (credentials.username === "admin" && credentials.password === "jerseys2024") {
+    if (credentials.email === "cypherc11@gmail.com" && credentials.password === "123456789") {
       setIsAuthenticated(true);
     } else {
       alert("Identifiants incorrects");
     }
   };
+
+
 
   if (!isAuthenticated) {
     return (
@@ -36,10 +63,10 @@ export default function Admin() {
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
                 <Input
-                  type="text"
-                  placeholder="Nom d'utilisateur"
-                  value={credentials.username}
-                  onChange={(e) => setCredentials({...credentials, username: e.target.value})}
+                  type="email"
+                  placeholder="votre adresse email"
+                  value={credentials.email}
+                  onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
                   required
                 />
               </div>
@@ -48,7 +75,7 @@ export default function Admin() {
                   type="password"
                   placeholder="Mot de passe"
                   value={credentials.password}
-                  onChange={(e) => setCredentials({...credentials, password: e.target.value})}
+                  onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
                   required
                 />
               </div>
@@ -58,8 +85,9 @@ export default function Admin() {
               </Button>
             </form>
             <p className="text-xs text-muted-foreground mt-4 text-center">
-              Demo: admin / jerseys2024
+              Demo: cypherc11@gmail.com/123456789
             </p>
+            {error && <p className="text-red-500 mt-2">{error}</p>}
           </CardContent>
         </Card>
       </div>
@@ -76,13 +104,16 @@ export default function Admin() {
             </h1>
             <div className="flex items-center space-x-4">
               <Badge variant="secondary">Admin connecté</Badge>
-              <Button 
-                variant="outline" 
-                onClick={() => setIsAuthenticated(false)}
-                className="transition-sprint"
-              >
-                Déconnexion
-              </Button>
+              <Link to="/">
+                <Button
+                  variant="outline"
+                  onClick={() => logout}
+                  className="transition-sprint"
+                >
+
+                  Déconnexion
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -102,7 +133,7 @@ export default function Admin() {
               </div>
             </CardContent>
           </Card>
-
+          {/*configurer des statistique dynamique*/}
           <Card className="shadow-sport">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
@@ -119,6 +150,7 @@ export default function Admin() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
+                  {/*configurer les visite avec google analytique */}
                   <p className="text-sm text-muted-foreground">Visiteurs</p>
                   <p className="text-2xl font-bold">145</p>
                 </div>
@@ -140,7 +172,7 @@ export default function Admin() {
           </Card>
         </div>
 
-        {/* Quick Actions */}
+        {/* Quick Actions non configurer pour le moment */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <Card>
             <CardHeader>
@@ -149,10 +181,19 @@ export default function Admin() {
                 Ajouter, modifier ou supprimer des maillots
               </CardDescription>
             </CardHeader>
+            {/*importer depuis product-form.tsx */}
             <CardContent className="space-y-3">
-              <Button className="w-full gradient-primary">
-                Ajouter un Produit
-              </Button>
+              <Link to={'/admin/produit/add'}>
+                <Button className="w-full gradient-primary">
+                  Ajouter un Produit
+                </Button>
+              </Link>
+
+              {/* <ProductForm onSave={} onCancel={}/> */}
+
+
+
+              {/* liste de tous les articles poster */}
               <Button variant="outline" className="w-full">
                 Voir Tous les Produits
               </Button>
@@ -167,6 +208,7 @@ export default function Admin() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
+              {/*gestion des differente categories... compliquer sa... */}
               <Button className="w-full gradient-secondary">
                 Gérer les Catégories
               </Button>
@@ -184,9 +226,11 @@ export default function Admin() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
+              {/*dashbord de l'historique des commande... appel a la base de donne pour lister les dernieres commande selon les dates */}
               <Button className="w-full gradient-accent">
                 Voir les Commandes
               </Button>
+              {/* statistique via google analytique */}
               <Button variant="outline" className="w-full">
                 Statistiques
               </Button>
@@ -194,7 +238,7 @@ export default function Admin() {
           </Card>
         </div>
 
-        {/* Recent Activity */}
+        {/* Recent Activity recperer les donnees les plus recent dans google analytique*/}
         <Card className="mt-8">
           <CardHeader>
             <CardTitle>Activité Récente</CardTitle>

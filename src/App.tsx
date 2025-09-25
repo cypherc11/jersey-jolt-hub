@@ -9,8 +9,18 @@ import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
+import ProductForm from "./components/admin/product-form";
+//import AddProduct from "./pages/login"
+import { LogIn } from "lucide-react";
 
 const queryClient = new QueryClient();
+
+// const handleSave = async (ProductData) =>{
+//   console.log(ProductData)
+// }
+// const handleCancel = async () =>{
+//   console.log('annule')
+// }
 
 const App = () => (
   <HelmetProvider>
@@ -25,7 +35,8 @@ const App = () => (
             <Route path="/category/:category" element={<Index />} />
             <Route path="/panier" element={<Cart />} />
             <Route path="/admin" element={<Admin />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="/admin/produit/add" element={<ProductForm />} />
+             {/*ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

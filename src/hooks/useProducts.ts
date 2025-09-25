@@ -12,7 +12,7 @@ const mockProducts: Product[] = [
     slug: 'maillot-psg-domicile-2024',
     description: 'Maillot officiel du Paris Saint-Germain pour la saison 2024. Design iconique avec les couleurs traditionnelles bleu et rouge. Matière respirante et confortable.',
     short_description: 'Maillot PSG domicile, taille M, polyester',
-    price: 89.99,
+    price: 90.99,
     images: [psgJersey],
     team: 'Paris Saint-Germain',
     sport: 'Football',
