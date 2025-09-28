@@ -63,7 +63,7 @@ export function Footer() {
             <div className="space-y-3 text-muted-foreground">
               <div className="flex items-center space-x-2">
                 <Phone className="w-4 h-4" />
-                <span>+33 1 23 45 67 89</span>
+                <span>+237 697 995 579</span>
               </div>
               <div className="flex items-center space-x-2">
                 <MessageCircle className="w-4 h-4" />
@@ -75,7 +75,7 @@ export function Footer() {
               </div>
               <div className="flex items-center space-x-2">
                 <MapPin className="w-4 h-4" />
-                <span>Paris, France</span>
+                <span>Douala, Cameroun</span>
               </div>
             </div>
           </div>
@@ -84,7 +84,7 @@ export function Footer() {
         <Separator className="my-8" />
 
         <div className="flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
-          <p>&copy; 2024 Jersey Jolt Hub. Tous droits réservés.</p>
+          <p>&copy; 2025 Jersey Jolt Hub. Tous droits réservés.</p>
           <div className="flex space-x-4 mt-4 md:mt-0">
             <a href="#" className="hover:text-foreground transition-sprint">Mentions légales</a>
             <a href="#" className="hover:text-foreground transition-sprint">Confidentialité</a>

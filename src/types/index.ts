@@ -41,6 +41,7 @@ export type FilterOptions = {
   team?: string;
   priceRange?: [number, number];
   search?: string;
+  default? : null;
 }
 
 export type SortOption = 'name' | 'price-asc' | 'price-desc' | 'newest';

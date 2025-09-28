@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,6 +11,9 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
 import { Upload, X, Plus, Save, User } from "lucide-react";
 import { Product } from "@/types";
+import { addFirebaseProduct } from "@/hooks/useFirebaseProducts";
+//import { CreateDocument, UpdateDocument } from "@/api/firestore";
+//import { toast } from "sonner";
 
 interface ProductFormProps {
   product?: Product | null;
@@ -23,6 +26,12 @@ const sports = ["football", "basketball", "rugby", "tennis"];
 const categories = ["domicile", "extérieur", "third kit", "rétro"];
 
 export default function ProductForm({ product, onSave, onCancel, loading }: ProductFormProps) {
+  const [error, setError] = useState('')
+  const [dragOver, setDragOver] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
+
+
   const [formData, setFormData] = useState({
     name: product?.name || "",
     description: product?.description || "",
@@ -37,9 +46,6 @@ export default function ProductForm({ product, onSave, onCancel, loading }: Prod
     stock_quantity: product?.stock_quantity || 0,
     images: product?.images || []
   });
-
-  const [dragOver, setDragOver] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleInputChange = (field: string, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -120,11 +126,37 @@ export default function ProductForm({ product, onSave, onCancel, loading }: Prod
     return true;
   };
 
-  //soumiton si formulaire correct
+  const handleCreateDocument = async (
+    collectionName: string,
+    documentID: string,
+    data: any
+  ) => {
+    const { error } = await addFirebaseProduct(
+      collectionName,
+      documentID,
+      data
+    );
+
+    if (!error) {
+      console.log('tous bon')
+      toast({
+        title: "pas d'erreur",
+        description: "enregistrement dans la bd effectuer",
+        variant: "default"
+      });
+      navigate("/admin/dashboard"); //🔁 Redirection vers le dashboard
+    } else {
+      console.log(error.message)
+      return
+    }
+  }
+
+  //soumission si formulaire correct
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validateForm()) return;
+    if (!validateForm())
+      return;
 
     try {
       const slug = formData.name.toLowerCase()
@@ -146,8 +178,12 @@ export default function ProductForm({ product, onSave, onCancel, loading }: Prod
         ].filter(Boolean)
       };
 
+      handleCreateDocument('product', productData.slug, productData)
+
       await onSave(productData);
+
     } catch (error) {
+      console.error(error)
       toast({
         title: "Erreur",
         description: "Impossible de sauvegarder le produit",
@@ -159,8 +195,9 @@ export default function ProductForm({ product, onSave, onCancel, loading }: Prod
   return (
 
     <form onSubmit={handleSubmit} className="space-y-6">
+
       <div className="w-8 h-8">
-        <Link to="/Admin">
+        <Link to="/admin/dashboard">
           <Button variant="ghost" size="sm" className=" w-8 h-8 gradient-primary rounded-lg flex items-center justify-center space-x-8">
             <User className="w-4 h-4" />
           </Button>
@@ -187,7 +224,7 @@ export default function ProductForm({ product, onSave, onCancel, loading }: Prod
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="price">Prix (€) *</Label>
+              <Label htmlFor="price">Prix (Fcfa) *</Label>
               <Input
                 id="price"
                 type="number"
@@ -292,7 +329,7 @@ export default function ProductForm({ product, onSave, onCancel, loading }: Prod
               <Input
                 id="stock"
                 type="number"
-                min="0"
+                min="1"
                 value={formData.stock_quantity}
                 onChange={(e) => handleInputChange('stock_quantity', parseInt(e.target.value) || 0)}
               />

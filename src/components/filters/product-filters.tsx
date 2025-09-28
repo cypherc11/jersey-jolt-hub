@@ -26,7 +26,7 @@ const teams = [
   { value: "psg", label: "Paris Saint-Germain" },
   { value: "lakers", label: "Los Angeles Lakers" },
   { value: "france", label: "Équipe de France" },
-];
+]; 
 
 export function ProductFilters({
   filters,

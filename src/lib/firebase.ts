@@ -1,7 +1,7 @@
-import { getFirestore } from 'firebase/firestore';
+import { initializeApp } from "firebase/app"; //initialisation de firebase
+import { getAuth } from 'firebase/auth'; //authentification
+import { getFirestore } from 'firebase/firestore'; //firestore
 import { getStorage } from 'firebase/storage';
-import { getAuth } from 'firebase/auth';
-import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 
 

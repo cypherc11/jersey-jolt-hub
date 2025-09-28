@@ -7,11 +7,14 @@ import { AdvancedFilters } from "@/components/filters/advanced-filters";
 import { useFirebaseProducts } from "@/hooks/useFirebaseProducts";
 import { FilterOptions, SortOption } from "@/types";
 import { SEOHead } from "@/components/seo/seo-head";
+import { useProducts } from "@/hooks/useProducts";
+import { ProductFilters } from "@/components/filters/product-filters";
 
 const Index = () => {
   const [filters, setFilters] = useState<FilterOptions>({});
   const [sort, setSort] = useState<SortOption>("newest");
-  const { products, loading } = useFirebaseProducts(filters, sort);
+  //const { products, loading } = useFirebaseProducts(filters, sort);
+  const { products, loading } = useProducts(filters, sort);
 
   const handleClearFilters = () => {
     setFilters({});

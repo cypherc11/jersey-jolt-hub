@@ -126,6 +126,7 @@ export function useProducts(filters?: FilterOptions, sort?: SortOption) {
 
         setProducts(filteredProducts);
         setError(null);
+        console.log('success')
       } catch (err) {
         setError('Erreur lors du chargement des produits');
       } finally {

@@ -10,8 +10,7 @@ import Cart from "./pages/Cart";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 import ProductForm from "./components/admin/product-form";
-//import AddProduct from "./pages/login"
-import { LogIn } from "lucide-react";
+import AdminLogin from "./pages/login"
 
 const queryClient = new QueryClient();
 
@@ -34,7 +33,8 @@ const App = () => (
             <Route path="/product/:slug" element={<ProductDetail />} />
             <Route path="/category/:category" element={<Index />} />
             <Route path="/panier" element={<Cart />} />
-            <Route path="/admin" element={<Admin />} />
+            <Route path="/admin/dashboard" element={<Admin />} />
+            <Route path="/admin" element={<AdminLogin/>}/>
             <Route path="/admin/produit/add" element={<ProductForm />} />
              {/*ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

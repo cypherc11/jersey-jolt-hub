@@ -1,113 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Lock, User, ShoppingBag, TrendingUp, Users, Package } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ShoppingBag, TrendingUp, Users, Package } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';
-//import { ProductForm } from "@/components/admin/product-form";
 import { toast } from "sonner";
 import { Product } from "@/types";
 
 
 export default function Admin() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [credentials, setCredentials] = useState({ email: "", password: "" });
-  //const { login } = useFirebaseAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const { logout } = useFirebaseAuth()
-
-  // const handleLogin = async () => {
-  //   try {
-  //     await login(email, password);
-  //     setIsAuthenticated(true);
-  //     toast('Authentification success')
-  //     // Rediriger vers le dashboard admin
-  //   } catch (err) {
-  //     setError('Échec de la connexion');
-  //     alert("Identifiants incorrects");
-  //     toast.error
-  //   }
-  // };
-
-
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Simple authentication for demo
-    if (credentials.email === "cypherc11@gmail.com" && credentials.password === "123456789") {
-      setIsAuthenticated(true);
-    } else {
-      alert("Identifiants incorrects");
-    }
-  };
-
-
-
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center px-4">
-        <Card className="w-full max-w-md">
-          <CardHeader className="text-center">
-            <div className="w-12 h-12 gradient-primary rounded-lg flex items-center justify-center mx-auto mb-4">
-              <Lock className="w-6 h-6 text-white" />
-            </div>
-            <CardTitle>Administration</CardTitle>
-            <CardDescription>
-              Accès réservé aux administrateurs
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleLogin} className="space-y-4">
-              <div>
-                <Input
-                  type="email"
-                  placeholder="votre adresse email"
-                  value={credentials.email}
-                  onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
-                  required
-                />
-              </div>
-              <div>
-                <Input
-                  type="password"
-                  placeholder="Mot de passe"
-                  value={credentials.password}
-                  onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
-                  required
-                />
-              </div>
-              <Button type="submit" className="w-full gradient-primary">
-                <User className="w-4 h-4 mr-2" />
-                Se connecter
-              </Button>
-            </form>
-            <p className="text-xs text-muted-foreground mt-4 text-center">
-              Demo: cypherc11@gmail.com/123456789
-            </p>
-            {error && <p className="text-red-500 mt-2">{error}</p>}
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
+  const { logout } = useFirebaseAuth();
+  
 
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b bg-card">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-gradient">
-              Jersey Jolt Hub - Admin
-            </h1>
+            <a href="/">
+              <h1 className="text-2xl font-bold text-gradient">
+                Jersey Jolt Hub - Admin
+              </h1>
+            </a>
+
             <div className="flex items-center space-x-4">
               <Badge variant="secondary">Admin connecté</Badge>
               <Link to="/">
                 <Button
                   variant="outline"
-                  onClick={() => logout}
+                  onClick={logout}
                   className="transition-sprint"
                 >
 
@@ -164,7 +86,7 @@ export default function Admin() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-muted-foreground">CA du Jour</p>
-                  <p className="text-2xl font-bold">1,234€</p>
+                  <p className="text-2xl font-bold">1,234Fcfa</p>
                 </div>
                 <TrendingUp className="w-8 h-8 text-sport-red" />
               </div>

@@ -29,7 +29,7 @@ export function AdvancedFilters({
   onClearFilters,
   className 
 }: AdvancedFiltersProps) {
-  const [priceRange, setPriceRange] = useState<[number, number]>(filters.priceRange || [0, 200]);
+  const [priceRange, setPriceRange] = useState<[number, number]>(filters.priceRange || [0, 300]);
   const [isOpen, setIsOpen] = useState(false);
 
   // Update price filter with debouncing
@@ -181,7 +181,7 @@ export function AdvancedFilters({
                 {/* Price Range Filter */}
                 <div className="space-y-2">
                   <label className="text-sm font-medium">
-                    Prix: {priceRange[0]}€ - {priceRange[1]}€
+                    Prix: {priceRange[0]}Fcfa - {priceRange[1]}Fcfa
                   </label>
                   <div className="px-2">
                     <Slider
@@ -242,7 +242,7 @@ export function AdvancedFilters({
                     )}
                     {filters.priceRange && (
                       <Badge variant="secondary">
-                        Prix: {filters.priceRange[0]}€-{filters.priceRange[1]}€
+                        Prix: {filters.priceRange[0]}Fcfa-{filters.priceRange[1]}Fcfa
                         <Button
                           variant="ghost"
                           size="sm"

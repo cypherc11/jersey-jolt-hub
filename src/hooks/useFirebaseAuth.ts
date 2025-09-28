@@ -50,10 +50,12 @@ export function useFirebaseAuth() {
   // Fonction pour connecter un utilisateur avec email et mot de passe
   const login = async (email: string, password: string) => {
     try {
-      await signInWithEmailAndPassword(auth, email, password); // Tentative de connexion
+      const userCredential = await signInWithEmailAndPassword(auth, email, password); // Tentative de connexion
+      const user = userCredential.user
+      console.log(user)
       return { success: true }; // Succès
     } catch (error) {
-      return { 
+      return {
         success: false, 
         error: error instanceof Error ? error.message : 'Erreur de connexion' // Message d'erreur
       };

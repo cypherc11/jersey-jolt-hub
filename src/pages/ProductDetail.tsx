@@ -3,24 +3,47 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { useProduct } from "@/hooks/useProducts";
-import { ArrowLeft, MessageCircle, Phone, Star, Truck, Shield, RotateCcw } from "lucide-react";
+import { ArrowLeft, MessageCircle, Phone, Star, Truck, Shield, RotateCcw, Plus, Minus } from "lucide-react";
+//import { AddToCartButton } from "@/components/cart/add-to-cart-button";
+import { useCart } from "@/hooks/useCart";
+import { useState } from "react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@radix-ui/react-select";
+import { useFirebaseProduct } from "@/hooks/useFirebaseProducts";
+
+
+
 
 export default function ProductDetail() {
-  const { slug } = useParams<{ slug: string }>();
-  const { product, loading, error } = useProduct(slug || "");
+  // const { slug } = useParams();
+  // const { product, loading, error } = useFirebaseProduct(slug);
+  const [selectedSize, setSelectedSize] = useState<string>("M");
+  const { addToCart, removeFromCart } = useCart();
+  const [Loading, setLoading] = useState("");
+  const {slug} = useParams()
+  const {product, loading, error} = useProduct(slug)
+  
+
+  const sizes = ["S", "M", "L", "XL"];
+
+  const handleAddToCart = () => {
+    addToCart(product, selectedSize, 1);
+    setLoading("true")
+    setSelectedSize("");
+
+
+  };
 
   const handleWhatsAppOrder = () => {
     if (!product) return;
-    const message = `Bonjour, je suis intéressé par le maillot de sport ${product.name} à ${product.price}€.`;
+    const message = `Bonjour, je suis intéressé par le maillot de sport ${product.name} à ${product.price}Fcfa.`;
     const whatsappUrl = `https://wa.me/+237697995579?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
 
   const handleTelegramOrder = () => {
     if (!product) return;
-    const message = `Bonjour, je suis intéressé par le maillot de sport ${product.name} à ${product.price}€.`;
+    const message = `Bonjour, je suis intéressé par le maillot de sport ${product.name} à ${product.price}Fcfa.`;
     const telegramUrl = `https://t.me/jerseyjolthub?text=${encodeURIComponent(message)}`;
     window.open(telegramUrl, '_blank');
   };
@@ -118,7 +141,7 @@ export default function ProductDetail() {
             {/* Price */}
             <div className="flex items-center space-x-4">
               <span className="text-4xl font-bold text-primary">
-                {product.price}€
+                {product.price}Fcfa
               </span>
               <Badge variant="secondary" className="text-sm">
                 En stock ({product.stock_quantity})
@@ -139,6 +162,23 @@ export default function ProductDetail() {
                   <p className="font-medium">{product.size}</p>
                 </div>
               )}
+              
+
+              {/* <div className={`flex items-center space-x-2 `}>
+                <Select value={selectedSize} onValueChange={setSelectedSize}>
+                  <SelectTrigger className="w-20">
+                    <SelectValue placeholder="Taille*" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {sizes.map((size) => (
+                      <SelectItem key={size} value={size}>
+                        {size}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div> */}
+
               {product.material && (
                 <div>
                   <span className="text-sm text-muted-foreground">Matière</span>
@@ -159,14 +199,24 @@ export default function ProductDetail() {
 
             {/* Order Buttons */}
             <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-3 gap-4">
+                <Button
+                  onClick={handleAddToCart}
+                  disabled={!selectedSize}
+                  size="lg"
+                  className="transition-sprint hover:scale-105"
+                >
+                  {Loading ? <Minus className="w-4 h-4 mr-1" /> : <Plus className="w-4 h-4 mr-1"/>}
+                  Panier
+                </Button>
+                
                 <Button
                   onClick={handleWhatsAppOrder}
                   className="bg-sport-green hover:bg-sport-green/90 transition-sprint hover:scale-105"
                   size="lg"
                 >
                   <MessageCircle className="w-5 h-5 mr-2" />
-                  Commander via WhatsApp
+                  WhatsApp
                 </Button>
                 <Button
                   onClick={handleTelegramOrder}
@@ -175,7 +225,7 @@ export default function ProductDetail() {
                   size="lg"
                 >
                   <Phone className="w-5 h-5 mr-2" />
-                  Commander via Telegram
+                  Telegram
                 </Button>
               </div>
               <p className="text-sm text-muted-foreground text-center">

@@ -106,7 +106,7 @@ export function useCart() {
     
     const total = getTotalPrice();
     
-    return `Bonjour, je commande :\n\n${items}\n\nTotal: ${total.toFixed(2)}€`;
+    return `Bonjour, je commande :\n\n${items}\n\nTotal: ${total.toFixed(2)}Fcfa`;
   };
 
   const generateTelegramMessage = () => {

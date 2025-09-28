@@ -11,29 +11,29 @@ import { Minus, Plus, Trash2, MessageCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Cart = () => {
-  const { 
-    cartItems, 
-    updateQuantity, 
-    removeFromCart, 
-    clearCart, 
-    getTotalPrice, 
-    generateWhatsAppMessage, 
-    generateTelegramMessage 
+  const {
+    cartItems,
+    updateQuantity,
+    removeFromCart,
+    clearCart,
+    getTotalPrice,
+    generateWhatsAppMessage,
+    generateTelegramMessage
   } = useCart();
-  
+
   const [orderType, setOrderType] = useState<'whatsapp' | 'telegram'>('whatsapp');
 
   const total = getTotalPrice();
 
   const handleOrder = () => {
-    const message = orderType === 'whatsapp' 
-      ? generateWhatsAppMessage() 
+    const message = orderType === 'whatsapp'
+      ? generateWhatsAppMessage()
       : generateTelegramMessage();
-    
+
     const encodedMessage = encodeURIComponent(message);
-    
+
     if (orderType === 'whatsapp') {
-      window.open(`https://wa.me/33123456789?text=${encodedMessage}`, '_blank');
+      window.open(`https://wa.me/+237697995579?text=${encodedMessage}`, '_blank');
     } else {
       window.open(`https://t.me/jerseyjolthub?text=${encodedMessage}`, '_blank');
     }
@@ -46,7 +46,7 @@ const Cart = () => {
           <title>Panier - Jersey Jolt Hub</title>
           <meta name="description" content="Votre panier de maillots de sport est vide. Découvrez notre collection de maillots authentiques." />
         </Helmet>
-        
+
         <Header />
         <main className="container mx-auto px-4 py-12">
           <div className="text-center py-24">
@@ -70,17 +70,17 @@ const Cart = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Panier ({cartItems.length} articles) - Jersey Jolt Hub</title>
-        <meta name="description" content={`Votre panier contient ${cartItems.length} maillots de sport pour un total de ${total.toFixed(2)}€`} />
+        <title>Panier  - Jersey Jolt Hub</title>
+        <meta name="description" content={`Votre panier contient ${cartItems.length} maillots de sport pour un total de ${total.toFixed(2)}Fcfa`} />
       </Helmet>
-      
+
       <Header />
       <main className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center justify-between mb-8">
             <h1 className="text-3xl font-bold">Mon Panier</h1>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={clearCart}
               className="text-destructive hover:text-destructive"
             >
@@ -101,7 +101,7 @@ const Cart = () => {
                         alt={item.product.name}
                         className="w-20 h-20 object-cover rounded-lg"
                       />
-                      
+
                       <div className="flex-1 min-w-0">
                         <h3 className="font-semibold text-lg mb-2">{item.product.name}</h3>
                         <div className="flex items-center space-x-2 mb-3">
@@ -110,7 +110,7 @@ const Cart = () => {
                             <Badge variant="outline">{item.product.team}</Badge>
                           )}
                         </div>
-                        
+
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-2">
                             <Button
@@ -131,10 +131,10 @@ const Cart = () => {
                               <Plus className="w-3 h-3" />
                             </Button>
                           </div>
-                          
+
                           <div className="text-right">
                             <p className="font-bold text-lg">
-                              {(item.product.price * item.quantity).toFixed(2)}€
+                              {(item.product.price * item.quantity).toFixed(2)}Fcfa
                             </p>
                             <Button
                               variant="ghost"
@@ -163,21 +163,21 @@ const Cart = () => {
                   <div className="space-y-2">
                     <div className="flex justify-between">
                       <span>Sous-total</span>
-                      <span>{total.toFixed(2)}€</span>
+                      <span>{total.toFixed(2)}Fcfa</span>
                     </div>
                     <div className="flex justify-between text-sm text-muted-foreground">
                       <span>Livraison</span>
                       <span>À discuter</span>
                     </div>
                   </div>
-                  
+
                   <Separator />
-                  
+
                   <div className="flex justify-between text-lg font-bold">
                     <span>Total</span>
-                    <span>{total.toFixed(2)}€</span>
+                    <span>{total.toFixed(2)}Fcfa</span>
                   </div>
-                  
+
                   <div className="space-y-3 mt-6">
                     <div className="flex space-x-2">
                       <Button
@@ -197,10 +197,10 @@ const Cart = () => {
                         Telegram
                       </Button>
                     </div>
-                    
-                    <Button 
+
+                    <Button
                       onClick={handleOrder}
-                      size="lg" 
+                      size="lg"
                       className="w-full transition-sprint hover:scale-105"
                     >
                       <MessageCircle className="w-4 h-4 mr-2" />
@@ -210,6 +210,11 @@ const Cart = () => {
                 </CardContent>
               </Card>
             </div>
+            <Link to="/">
+              <Button size="lg" className="transition-sprint hover:scale-105">
+                Continuer les achats
+              </Button>
+            </Link>
           </div>
         </div>
       </main>

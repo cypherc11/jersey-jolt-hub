@@ -112,7 +112,7 @@ export function SearchBar({ onSearch, className }: SearchBarProps) {
                     <div className="flex-1 min-w-0">
                       <p className="font-medium truncate">{product.name}</p>
                       <p className="text-sm text-muted-foreground">
-                        {product.price.toFixed(2)}€
+                        {product.price.toFixed(2)}Fcfa
                       </p>
                     </div>
                   </div>
