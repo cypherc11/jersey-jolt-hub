@@ -5,20 +5,10 @@ import { Product } from "@/types";
 import { Link } from "react-router-dom";
 import { MessageCircle, Phone } from "lucide-react";
 import { AddToCartButton } from "@/components/cart/add-to-cart-button";
-import {useProduct} from "@/hooks/useProducts";
-import { useParams } from "react-router-dom";
-import psgJersey from '@/assets/jersey-psg.jpg';
-import lakersJersey from '@/assets/jersey-lakers.jpg';
-import franceRugbyJersey from '@/assets/jersey-france-rugby.jpg';
-
 
 interface ProductCardProps {
   product: Product;
 }
-
-
-
-
 
 //   const mockProducts: Product[] = [
 //   {
@@ -79,8 +69,6 @@ interface ProductCardProps {
 
 
 export function ProductCard({ product }: ProductCardProps) {
-
-  
 
   const handleWhatsAppOrder = () => {
     const message = `Bonjour, je suis intéressé par le maillot de sport ${product.name} à ${product.price}Fcfa.`;

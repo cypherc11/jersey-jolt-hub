@@ -15,24 +15,29 @@ import { useFirebaseProduct } from "@/hooks/useFirebaseProducts";
 
 
 export default function ProductDetail() {
-  // const { slug } = useParams();
-  // const { product, loading, error } = useFirebaseProduct(slug);
+  const { slug } = useParams();
+  const { product, loading, error } = useFirebaseProduct(slug);
   const [selectedSize, setSelectedSize] = useState<string>("M");
   const { addToCart, removeFromCart } = useCart();
   const [Loading, setLoading] = useState("");
-  const {slug} = useParams()
-  const {product, loading, error} = useProduct(slug)
+  // const {slug} = useParams()
+  // const {product, loading, error} = useProduct(slug)
   
 
   const sizes = ["S", "M", "L", "XL"];
 
+  // const handleAddToCart = () => {
+  //   addToCart(product, selectedSize, 1);
+  //   setLoading("true")
+  //   setSelectedSize("");
+  // };
   const handleAddToCart = () => {
-    addToCart(product, selectedSize, 1);
-    setLoading("true")
-    setSelectedSize("");
+  if (!selectedSize || !product) return;
 
+  addToCart(product, selectedSize, 1);
+  setLoading("true"); // Déclenche le toast via useEffect
+};
 
-  };
 
   const handleWhatsAppOrder = () => {
     if (!product) return;

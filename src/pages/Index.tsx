@@ -13,8 +13,8 @@ import { ProductFilters } from "@/components/filters/product-filters";
 const Index = () => {
   const [filters, setFilters] = useState<FilterOptions>({});
   const [sort, setSort] = useState<SortOption>("newest");
-  //const { products, loading } = useFirebaseProducts(filters, sort);
-  const { products, loading } = useProducts(filters, sort);
+  const { products, loading } = useFirebaseProducts(filters, sort);
+  // const { products, loading } = useProducts(filters, sort);
 
   const handleClearFilters = () => {
     setFilters({});
